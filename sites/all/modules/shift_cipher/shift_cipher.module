@@ -51,7 +51,10 @@ function shift_cipher_form() {
 }
 
 function element_validate_symbols($element) {
-  $pattern = '/[^\w!.?]/';
+  $pattern = '/[^\w\s\'\-\/",!.;:?\\\\()]/';
+  $matches = array();
+  preg_match_all($pattern, $element['#value'], $matches, PREG_PATTERN_ORDER);
+  var_dump($matches);
   if (preg_match_all($pattern, $element['#value'])) {
     form_error($element, t('Please do not include special characters/symbols other than punctuation'));
   }
@@ -71,7 +74,7 @@ function shift_cipher_form_submit($form, &$form_state) {
   $direction = strtolower($form_state['values']['direction']);
   $phrase = strtolower($form_state['values']['phrase']);
   $split_phrase = str_split($phrase);
-  $character_pattern = '/\w/';
+  $character_pattern = '/\w[^\d]/';
   $_SESSION['shift_value'] = $shift_value;
   $new_char = 0;
 
