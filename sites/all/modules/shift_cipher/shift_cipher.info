@@ -1,0 +1,5 @@
+name = Shift Cipher
+description = Provides a form for the user to enter in their parameters for a shift cipher, then applies the shift cipher to the phrase provided and redirects to a new page.
+package = Shift Cipher
+core = 7.x
+files[] =  shift_cipher.module
