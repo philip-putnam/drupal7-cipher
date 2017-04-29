@@ -38,6 +38,7 @@ function shift_cipher_form() {
     '#title' => 'Phrase',
     '#type' => 'textarea',
     '#description' => t('The phrase to cipher shift'),
+    '#element_validate' => array('element_validate_symbols'),
     '#required' => TRUE,
   );
 
@@ -47,6 +48,13 @@ function shift_cipher_form() {
       );
 
   return $form;
+}
+
+function element_validate_symbols($element) {
+  $pattern = '/[^\w!.?]/';
+  if (preg_match_all($pattern, $element['#value'])) {
+    form_error($element, t('Please do not include special characters/symbols other than punctuation'));
+  }
 }
 
 function element_validate_term($element) {
