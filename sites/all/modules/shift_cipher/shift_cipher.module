@@ -74,7 +74,7 @@ function shift_cipher_form_submit($form, &$form_state) {
   $direction = strtolower($form_state['values']['direction']);
   $phrase = strtolower($form_state['values']['phrase']);
   $split_phrase = str_split($phrase);
-  $character_pattern = '/\w[^\d]/';
+  $character_pattern = '/[^\d\s\W]/';
   $_SESSION['shift_value'] = $shift_value;
   $new_char = 0;
 
@@ -82,11 +82,12 @@ function shift_cipher_form_submit($form, &$form_state) {
     $quotient = floor($shift_value / 26);
     $shift_value -= (26 * $quotient);
   }
-
   foreach($split_phrase as &$char) {
     if (preg_match($character_pattern, $char)) {
+      $_SESSION['error_check'] = 'preg match = true';
       $ascii_value = ord($char);
       if ($direction === 'left') {
+        $_SESSION['ascii'] = 'inside direction';
         $new_char = ($ascii_value - $shift_value);
         if ($new_char < 97) {
           $new_char += 26;
